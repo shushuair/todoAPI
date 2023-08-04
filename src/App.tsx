@@ -1,24 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useEffect} from 'react';
 import './App.css';
+import {AddItemForm} from "./components/AddItemForm/AddItemForm";
+import {Todolists} from "./components/Todolists/Todolists";
+import {useAppDispatch} from "./state/store";
+import {addTodolistTC, getTodolistTC} from "./state/todolistReducer";
 
 function App() {
+    const dispatch = useAppDispatch()
+    useEffect(()=>{
+       dispatch(getTodolistTC())
+    },[])
+    const addNewTodolist = (title: string) => {
+        dispatch(addTodolistTC(title))
+    }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <div>
+       <h1>TODOLISTS</h1>
+       <h3>Add Todolist</h3>
+         <AddItemForm addItem={addNewTodolist}/>
+       <Todolists/>
+     </div>
     </div>
   );
 }

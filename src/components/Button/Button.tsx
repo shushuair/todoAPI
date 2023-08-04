@@ -1,9 +1,17 @@
 import React from 'react';
 
-export const Tasks = () => {
-    return (
-        <div>
+export type ButtonPropsType = {
+    name: string
+    callback: ()=>void
+}
 
-        </div>
+export const Button = (props: ButtonPropsType) => {
+    const {name, callback} = props
+    const onClickHandler = () => {
+        callback()
+    }
+    return (
+        <button onClick={onClickHandler}>{name}</button>
     );
 };
+

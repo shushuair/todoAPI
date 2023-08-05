@@ -18,7 +18,7 @@ export type TodoPropsType = {
     filterStatus: FilterValuesType
 }
 
-export const Todo = (props: TodoPropsType) => {
+export const Todolist = (props: TodoPropsType) => {
     const {todolistId, titleTodolist, filterStatus} = props
     const dispatch = useAppDispatch()
     const deleteTodoHandler = () => {
@@ -28,7 +28,7 @@ export const Todo = (props: TodoPropsType) => {
         dispatch(changeTodoTitleTC(todolistId, title))
     }
     const onChangeHandler = (newValue: string) => {
-
+        dispatch(createTaskTC(todolistId, newValue))
     }
     return (
         <div>

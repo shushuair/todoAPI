@@ -1,5 +1,5 @@
 import React from 'react';
-import {Todo} from "../Todo/Todo";
+import {Todolist} from "../Todolist/Todolist";
 import {useSelector} from "react-redux";
 import {RootReducerType, useAppDispatch} from "../../state/store";
 import {InitialStateType, TodolistType} from "../../api/typeApi";
@@ -12,7 +12,7 @@ export const Todolists = () => {
         <div>
             {todolists.map(el=>{
                 return (
-                    <Todo
+                    <Todolist
                     key={el.id}
                     todolistId={el.id}
                     titleTodolist={el.title}

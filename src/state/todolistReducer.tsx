@@ -52,7 +52,7 @@ export const addTodolistAC = (todolist: TodolistType) => {
     } as const
 }
 export const addTodolistTC = (title:string):AllThunkType => (dispatch) => {
-    todolistsAPI.createTodolist(title)
+    todolistsAPI.addTodolist(title)
         .then((res)=>{
             dispatch(addTodolistAC(res.data.data.item))
         })
@@ -78,7 +78,7 @@ export const changeTodoTitleAC = (todolistId: string, title: string) => {
     } as const
 }
 export const changeTodoTitleTC = (todolistId: string, title: string):AllThunkType => (dispatch) => {
-    todolistsAPI.updateTodolist(todolistId, title)
+    todolistsAPI.changeTodolist(todolistId, title)
         .then(() => {
             dispatch(changeTodoTitleAC(todolistId, title))
         })

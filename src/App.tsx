@@ -5,11 +5,10 @@ import {Todolists} from "./components/Todolists/Todolists";
 import {useAppDispatch} from "./state/store";
 import {addTodolistTC, getTodolistTC} from "./state/todolistReducer";
 
+import Container from "@mui/material/Container";
+
 function App() {
     const dispatch = useAppDispatch()
-    useEffect(()=>{
-       dispatch(getTodolistTC())
-    },[])
     const addNewTodolist = (title: string) => {
         dispatch(addTodolistTC(title))
     }
@@ -19,8 +18,13 @@ function App() {
      <div>
        <h1>TODOLISTS</h1>
        <h3>Add Todolist</h3>
-         <AddItemForm addItem={addNewTodolist}/>
-       <Todolists/>
+         <div>
+             <AddItemForm addItem={addNewTodolist}/>
+         </div>
+        <Container fixed>
+            <Todolists/>
+        </Container>
+
      </div>
     </div>
   );

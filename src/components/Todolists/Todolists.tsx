@@ -1,13 +1,17 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Todolist} from "../Todolist/Todolist";
 import {useSelector} from "react-redux";
-import {RootReducerType, useAppDispatch} from "../../state/store";
+import {RootStateType, useAppDispatch} from "../../state/store";
 import {InitialStateType, TodolistType} from "../../api/typeApi";
+import {getTodolistTC} from "../../state/todolistReducer";
 
 
 export const Todolists = () => {
     const dispatch = useAppDispatch()
-    const todolists = useSelector<RootReducerType, InitialStateType[]>(state => state.todolists)
+    const todolists = useSelector<RootStateType, TodolistType[]>(state => state.Todolists)
+    useEffect(()=>{
+        dispatch(getTodolistTC())
+    },[])
     return (
         <div>
             {todolists.map(el=>{
@@ -15,8 +19,7 @@ export const Todolists = () => {
                     <Todolist
                     key={el.id}
                     todolistId={el.id}
-                    titleTodolist={el.title}
-                    filterStatus={el.filter}
+                    todolistTitle={el.title}
                     />
                 )
             })}

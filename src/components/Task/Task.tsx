@@ -5,6 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete"
 import {useAppDispatch} from "../../state/store";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {TaskStatuses} from "../../api/typeApi";
+import {changeTaskTC, deleteTaskTC} from "../../state/tasksReducer";
 
 export type TaskPropsType = {
     todolistId: string

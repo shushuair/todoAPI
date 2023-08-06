@@ -13,9 +13,7 @@ export type TodolistType = {
     title: string
 }
 
-export type InitialStateType = TodolistType & {
-    filter: FilterValuesType
-}
+export type InitialStateType = TodolistType & {filter: FilterValuesType}
 
 export enum TaskStatuses {
     New = 0,
@@ -52,14 +50,7 @@ export type TasksResponseType = {
     error: null | string
 }
 
-
-export type RemoveTaskType = {
-    resultCode: number
-    messages: string[]
-    data: {}
-}
-
-export type UpdateTaskResponseType = {
+export type ChangeTaskResponseType = {
     data: {
         item: TodolistType
     }
@@ -67,10 +58,28 @@ export type UpdateTaskResponseType = {
     resultCode: number
 }
 
-export type UpdateTaskModelType = {
+export type ChangeTaskModelType = {
+    title?: string
+    description?: string
+    completed?: boolean
+    status?: number
+    priority?: number
+    startDate?: string
+    deadline?: string
+}
+
+// title?: string
+// description?: string
+// completed?: boolean
+// status?: number
+// priority?: number
+// startDate?: string
+// deadline?: string
+
+
+export type ChangeRequestTaskModelType = {
     title: string
     description: string
-    completed: boolean
     status: number
     priority: number
     startDate: string

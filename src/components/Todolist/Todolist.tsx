@@ -8,18 +8,16 @@ import {EditableSpan} from "../EditableSpan/EditableSpan";
 import {changeTodoTitleTC, removeTodolistTC} from "../../state/todolistReducer";
 // import {Button} from "@mui/material";
 import {Button} from "../Button/Button";
-
-
+import {addTaskTC} from "../../state/tasksReducer";
 
 
 export type TodoPropsType = {
     todolistId: string
-    titleTodolist: string
-    filterStatus: FilterValuesType
+    todolistTitle: string
 }
 
 export const Todolist = (props: TodoPropsType) => {
-    const {todolistId, titleTodolist, filterStatus} = props
+    const {todolistId, todolistTitle} = props
     const dispatch = useAppDispatch()
     const deleteTodoHandler = () => {
         dispatch(removeTodolistTC(todolistId))
@@ -28,23 +26,26 @@ export const Todolist = (props: TodoPropsType) => {
         dispatch(changeTodoTitleTC(todolistId, title))
     }
     const onChangeHandler = (newValue: string) => {
-        dispatch(createTaskTC(todolistId, newValue))
+        dispatch(addTaskTC(todolistId, newValue))
     }
     return (
         <div>
-            <h2>
-                <EditableSpan value={titleTodolist} onChange={editTodoTitleHandler}/>
-            </h2>
+            <div>
+                <h2>
+                    <EditableSpan value={todolistTitle} onChange={editTodoTitleHandler}/>
+                </h2>
+                <Button name={"X"} callback={deleteTodoHandler}/>
+            </div>
+            <div>
+                <AddItemForm addItem={onChangeHandler}/>
+            </div>
+            <Tasks todolistId={todolistId}/>
+            <div>
+                <button>all</button>
+                <button>active</button>
+                <button>completed</button>
+            </div>
 
-            <Button name={"X"} callback={deleteTodoHandler}/>
-            <AddItemForm addItem={onChangeHandler}/>
-            <Tasks
-                todolistId={todolistId}
-                filterStatus={filterStatus}
-            />
-            <button>all</button>
-            <button>active</button>
-            <button>completed</button>
            {/*<Button variant="contained">All</Button>*/}
            {/*<Button>Active</Button>*/}
            {/*<Button>Completed</Button>*/}

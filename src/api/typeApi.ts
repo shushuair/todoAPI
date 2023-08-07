@@ -52,29 +52,23 @@ export type TasksResponseType = {
 
 export type ChangeTaskResponseType = {
     data: {
-        item: TodolistType
+        item: TasksType
     }
     messages: string[]
     resultCode: number
 }
 
 export type ChangeTaskModelType = {
-    title?: string
-    description?: string
-    completed?: boolean
-    status?: number
-    priority?: number
-    startDate?: string
-    deadline?: string
+    title: string
+    description: string
+    completed: boolean
+    status: number
+    priority: number
+    startDate: string
+    deadline: string
 }
 
-// title?: string
-// description?: string
-// completed?: boolean
-// status?: number
-// priority?: number
-// startDate?: string
-// deadline?: string
+
 
 
 export type ChangeRequestTaskModelType = {

@@ -1,11 +1,11 @@
 import axios, {AxiosResponse} from "axios";
 import {
+    ChangeTaskModelType,
+    ChangeTaskResponseType,
     TasksResponseType,
     TasksType,
     TodolistType,
     TodoResponseType,
-    ChangeTaskModelType,
-    ChangeTaskResponseType,
 } from "./typeApi";
 
 const instance = axios.create({
@@ -41,7 +41,8 @@ export const todolistsAPI = {
     },
     changeTask(todolistId: string, taskId:string, domainModel: ChangeTaskModelType){
         return instance.put<null, AxiosResponse<ChangeTaskResponseType>, ChangeTaskModelType>(`todo-lists/${todolistId}/tasks/${taskId}`, domainModel)
-    }
+    },
+
 }
 
 

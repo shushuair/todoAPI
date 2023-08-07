@@ -1,4 +1,4 @@
-import {InitialStateType, TodolistType} from "../api/typeApi";
+import {FilterValuesType, InitialStateType, TodolistType} from "../api/typeApi";
 import {todolistsAPI} from "../api/todolists-api";
 import {AllThunkType} from "./store";
 
@@ -21,11 +21,14 @@ export const todolistReducer = (state: InitialStateType[] = [], action: Todolist
         case "CHANGE-TITLE": {
             return state.filter(el => el.id === action.payload.todolistId ? {...el, title: action.payload.title} : el)
         }
-        default: return state
+        case "NEW-STATUS-FILTER":{
+            return state.map(el=>el.id===action.payload.todolistId?{...el, filter: action.payload.newStatusFilter}:el)
+        }            default: return state
     }
 }
 
-export type TodolistReducerActionType = SetTodolistType | AddTodolistType | RemoveTodolistType | ChangeTodoTitleType
+export type TodolistReducerActionType = SetTodolistType | AddTodolistType |
+    RemoveTodolistType | ChangeTodoTitleType | NewStatusFilterACType
 
 export type AddTodolistType = ReturnType<typeof addTodolistAC>
 export type SetTodolistType = ReturnType<typeof setTodolistAC>
@@ -71,6 +74,7 @@ export const removeTodolistTC = (todolistId: string):AllThunkType => (dispatch) 
         })
 }
 
+
 export const changeTodoTitleAC = (todolistId: string, title: string) => {
     return {
         type: "CHANGE-TITLE",
@@ -83,4 +87,18 @@ export const changeTodoTitleTC = (todolistId: string, title: string):AllThunkTyp
             dispatch(changeTodoTitleAC(todolistId, title))
         })
 }
-
+export type NewStatusFilterACType=ReturnType<typeof newStatusFilterAC>
+export const newStatusFilterAC=(todolistId:string,newStatusFilter:FilterValuesType)=>{
+    return{
+        type:"NEW-STATUS-FILTER",
+        payload:{todolistId,newStatusFilter}
+    }as const
+}
+// export const changeTodolistFilterTC = (todolistId: string, filter: FilterValuesType):AllThunkType => {
+//     return (dispatch) => {
+//         todolistsAPI.changeTodolistFilter(todolistId, filter)
+//             .them(()=>{
+//                 dispatch(changeTodolistFilterAC(todolistId, filter))
+//             })
+//     }
+// }

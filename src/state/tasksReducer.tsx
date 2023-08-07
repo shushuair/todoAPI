@@ -30,7 +30,7 @@ export const tasksReducer = (state: TasksStateReducerType = {}, action: TasksRed
             return {
                 ...state,
                 [action.payload.todolistId]: state[action.payload.todolistId]
-                    .map(el => el.id === action.payload.todolistId ? {...el, ...action.payload.model} : el)
+                    .map(el => el.id === action.payload.todolistId ? {...el, ...action.payload.task} : el)
             }
         }
         case "DELETE-TASK": {
@@ -85,30 +85,30 @@ export const addTaskTC = (todolistId: string, title:string): AllThunkType => {
     }
 }
 
-export const changeTaskAC = (todolistId: string, taskId:string, model: ChangeTaskModelType) => {
+export const changeTaskAC = (todolistId: string, taskId:string, task: TasksType) => {
     return {
         type: "CHANGE-TASK-TITLE",
-        payload: {todolistId,taskId,model}
+        payload: {todolistId,taskId,task}
     } as const
 }
-export const changeTaskTC = (todolistId: string, taskId:string, domainModel: ChangeTaskModelType): AllThunkType => {
+export const changeTaskTC = (todolistId: string, taskId:string, newtitle: string): AllThunkType => {
     return (dispatch, getState: () => RootStateType) => {
         const state = getState()
         const task = state.Tasks[todolistId].find(task => task.id === taskId)
         if(!task) {
             return
         }
-        const model: ChangeRequestTaskModelType = {
-            title: task.title,
+        const model: ChangeTaskModelType = {
+            title: newtitle,
+            completed: !task.completed,
             description: task.description,
             status: task.status,
             priority: task.priority,
             startDate: task.startDate,
             deadline: task.deadline,
-            ...domainModel
         }
         todolistsAPI.changeTask(todolistId, taskId, model)
-            .then(() => dispatch(changeTaskAC(todolistId, taskId, domainModel)))
+            .then((res) => dispatch(changeTaskAC(todolistId, taskId, res.data.data.item)))
     }
 }
 

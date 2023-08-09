@@ -1,13 +1,15 @@
 import React, {useEffect} from 'react';
 import {useSelector} from "react-redux";
-import {RootStateType, useAppDispatch} from "../../state/store";
+import {RootStateType, useAppDispatch} from "../../Redux/store";
 import {Task} from "../Task/Task";
 import {FilterValuesType, InitialStateType, TasksType} from "../../api/typeApi";
-import {getTasksAC, getTasksTC} from "../../state/tasksReducer";
+import {getTasksAC, getTasksTC} from "../../Redux/Reducers/tasksReducer";
+import {RequestStatusType} from "../../Redux/Reducers/appReducer";
 
 export type TasksPropsType = {
     todolistId: string
     filterStatus: FilterValuesType
+    entityStatus: RequestStatusType
 }
 
 export const Tasks = (props:TasksPropsType) => {
@@ -35,6 +37,7 @@ export const Tasks = (props:TasksPropsType) => {
                         taskId = {el.id}
                         taskTitle = {el.title}
                         checked={el.status}
+                        entityStatus={props.entityStatus}
                     />
                 )
             })}

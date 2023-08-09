@@ -1,3 +1,5 @@
+import {RequestStatusType} from "../Redux/Reducers/appReducer";
+
 export type TodoResponseType<D = {}> = {
     data: D
     messages: string[]
@@ -13,7 +15,10 @@ export type TodolistType = {
     title: string
 }
 
-export type InitialStateType = TodolistType & {filter: FilterValuesType}
+export type InitialStateType = TodolistType & {
+    filter: FilterValuesType
+    entityStatus: RequestStatusType
+}
 
 export enum TaskStatuses {
     New = 0,
@@ -59,23 +64,31 @@ export type ChangeTaskResponseType = {
 }
 
 export type ChangeTaskModelType = {
-    title: string
-    description: string
-    completed: boolean
-    status: number
-    priority: number
-    startDate: string
-    deadline: string
+    title?: string
+    description?: string
+    completed?: boolean
+    status?: TaskStatuses
+    priority?: TaskPriorities
+    startDate?: string
+    deadline?: string
 }
 
+export type UpdateDomainTaskModelType = {
+    title?: string
+    description?: string
+    status?: TaskStatuses
+    priority?: TaskPriorities
+    startDate?: string
+    deadline?: string
+}
 
 
 
 export type ChangeRequestTaskModelType = {
     title: string
     description: string
-    status: number
-    priority: number
+    status: TaskStatuses
+    priority: TaskPriorities
     startDate: string
     deadline: string
 }

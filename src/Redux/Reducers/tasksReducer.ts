@@ -91,7 +91,8 @@ export const addTaskTC = (todolistId: string, title: string): AllThunkType => {
         todolistsAPI.addTask(todolistId, title)
             .then(res => {
                 if (res.data.resultCode === 0) {
-                    dispatch(addTaskAC(todolistId, res.data.data.item))
+                    const task = res.data.data.item
+                    dispatch(addTaskAC(todolistId, task))
                     dispatch(setAppStatusAC('idle'))
                 } else {
                     handleServerAppError(res.data, dispatch)

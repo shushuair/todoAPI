@@ -1,7 +1,7 @@
 import {FilterValuesType, InitialStateType, TodolistType} from "../../api/typeApi";
 import {todolistsAPI} from "../../api/todolists-api";
 import {AllThunkType} from "../store";
-import {RequestStatusType, setAppStatusAC} from "./appReducer";
+import {RequestStatusType, setAppErrorAC, setAppStatusAC} from "./appReducer";
 
 
 export const TodolistReducer = (state: InitialStateType[] = [], action: TodolistReducerActionType): InitialStateType[] => {
@@ -97,6 +97,12 @@ export const removeTodolistTC = (todolistId: string): AllThunkType => (dispatch)
     todolistsAPI.removeTodolist(todolistId)
         .then(() => {
             dispatch(removeTodolistAC(todolistId))
+            dispatch(setAppStatusAC("idle"))
+        })
+        .catch(e=>{
+            dispatch(setAppErrorAC(e.message))
+            dispatch(changeEntityStatusAC(todolistId, 'failed'))
+            dispatch(setAppStatusAC('failed'))
         })
 }
 

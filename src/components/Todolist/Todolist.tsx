@@ -7,13 +7,12 @@ import {EditableSpan} from "../EditableSpan/EditableSpan";
 
 import {changeTodoTitleTC, newStatusFilterAC, removeTodolistTC} from "../../Redux/Reducers/todolistReducer";
 import Button from "@mui/material/Button";
-// import {Button} from "../Button/Button";
 import {addTaskTC} from "../../Redux/Reducers/tasksReducer";
 import Delete from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
-import {useDispatch} from "react-redux";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import {RequestStatusType} from "../../Redux/Reducers/appReducer";
+import s from "./Todolist.module.css"
 
 
 export type TodoPropsType = {
@@ -41,8 +40,8 @@ export const Todolist = (props: TodoPropsType) => {
 
 
     return (
-        <div>
-            <div>
+        <div className={s.TodolistWrapper}>
+            <div className={s.TodolistTitle}>
                 <h2>
                     <EditableSpan value={todolistTitle} onChange={editTodoTitleHandler}/>
                 </h2>

@@ -7,6 +7,7 @@ import {changeTaskTC, deleteTaskTC} from "../../Redux/Reducers/tasksReducer";
 import {TaskStatuses} from "../../api/typeApi";
 import Checkbox from "@mui/material/Checkbox";
 import {RequestStatusType} from "../../Redux/Reducers/appReducer";
+import s from "./Task.module.css"
 
 
 export type TaskPropsType = {
@@ -36,7 +37,7 @@ export const Task = (props: TaskPropsType) => {
     const checkedStatus = checked === 2
 
     return (
-        <div>
+        <div className={s.TaskWrapper}>
             <Checkbox checked={checkedStatus} onChange={onStatusChangeHandler}/>
 
             <EditableSpan value={taskTitle} onChange={onTaskTitleChangeHandler} disabled={props.entityStatus === "loading"}/>

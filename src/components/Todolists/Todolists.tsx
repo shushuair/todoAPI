@@ -4,6 +4,8 @@ import {useSelector} from "react-redux";
 import {RootStateType, useAppDispatch} from "../../Redux/store";
 import {FilterValuesType, InitialStateType, TodolistType} from "../../api/typeApi";
 import {getTodolistTC, newStatusFilterAC} from "../../Redux/Reducers/todolistReducer";
+import Grid from "@mui/material/Grid";
+import s from "./Todolists.module.css"
 
 
 export const Todolists = () => {
@@ -15,18 +17,19 @@ export const Todolists = () => {
 
     return (
         <div>
-            {todolists.map(el => {
-
-                return (
-                    <Todolist
-                        key={el.id}
-                        todolistId={el.id}
-                        todolistTitle={el.title}
-                        filterStatus={el.filter}
-                        entityStatus={el.entityStatus}
-                    />
-                )
-            })}
+            <Grid container className={s.app__wrapper}>
+                {todolists.map(el => {
+                    return (
+                        <Todolist
+                            key={el.id}
+                            todolistId={el.id}
+                            todolistTitle={el.title}
+                            filterStatus={el.filter}
+                            entityStatus={el.entityStatus}
+                        />
+                    )
+                })}
+            </Grid>
         </div>
     );
 };

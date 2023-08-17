@@ -5,6 +5,7 @@ import {Task} from "../Task/Task";
 import {FilterValuesType, InitialStateType, TasksType} from "../../api/typeApi";
 import {getTasksAC, getTasksTC} from "../../Redux/Reducers/tasksReducer";
 import {RequestStatusType} from "../../Redux/Reducers/appReducer";
+import s from "./Tasks.module.css"
 
 export type TasksPropsType = {
     todolistId: string
@@ -28,7 +29,7 @@ export const Tasks = (props:TasksPropsType) => {
     }
 
     return (
-        <div>
+        <div className={s.TasksWrapper}>
             {filteredTasks.map(el => {
                 return (
                     <Task

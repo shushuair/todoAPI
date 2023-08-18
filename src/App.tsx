@@ -1,10 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.module.css';
-import {AddItemForm} from "./components/AddItemForm/AddItemForm";
-import {Todolists} from "./components/Todolists/Todolists";
 import {RootStateType, useAppDispatch} from "./Redux/store";
-import {addTodolistTC} from "./Redux/Reducers/todolistReducer";
-
 import Container from "@mui/material/Container";
 import Toolbar from "@mui/material/Toolbar";
 import AppBar from "@mui/material/AppBar";
@@ -15,17 +11,31 @@ import {ErrorSnackbar} from "./components/ErrorSnackbar/ErrorSnackbar";
 import {RequestStatusType} from "./Redux/Reducers/appReducer";
 import {useSelector} from "react-redux";
 import LinearProgress from "@mui/material/LinearProgress";
-import {Navigate, Route, Routes} from "react-router-dom";
+import {Navigate, NavLink, Route, Routes} from "react-router-dom";
 import {Login} from "./components/Login/Login";
-import s from "./App.module.css"
+import {AppTodolist} from "./components/AppTodolist/AppTodolist";
+import Button from "@mui/material/Button";
+import {isLoggedInTC, logoutTC} from "./Redux/Reducers/authReducer";
+import {CircularProgress} from "@mui/material";
 
 function App() {
-    const status = useSelector<RootStateType, RequestStatusType>((state)=> state.App.status)
-    const dispatch = useAppDispatch()
-    const addNewTodolist = (title: string) => {
-        dispatch(addTodolistTC(title))
-    }
+    const status = useSelector<RootStateType, RequestStatusType>((state) => state.App.status)
+    const isLoggedIn = useSelector<RootStateType, boolean>(state => state.Auth.isLoggedIn)
+    const isInitialized = useSelector<RootStateType, boolean>(state => state.Auth.isInitialized)
+    useEffect(() => {
+        dispatch(isLoggedInTC())
+    }, [isLoggedIn])
 
+    const dispatch = useAppDispatch()
+    const onLogoutHandler = () => {
+        dispatch(logoutTC())
+    }
+    if (!isInitialized) {
+        return <div
+            style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+            <CircularProgress/>
+        </div>
+    }
     return (
         <div className="App">
             <ErrorSnackbar/>
@@ -35,26 +45,29 @@ function App() {
                         <Menu/>
                     </IconButton>
                     <Typography>
-                        News
+                        {
+                            !isLoggedIn
+                                ? <NavLink to={'login'}>
+                                    <Button color="inherit">Login</Button>
+                                </NavLink>
+                                : <Button color="inherit" onClick={onLogoutHandler}>Logout</Button>
+                        }
                     </Typography>
                 </Toolbar>
-                {status === "loading" && <LinearProgress />}
+                {status === "loading" && <LinearProgress/>}
             </AppBar>
-            {/*<h1>TODOLISTS</h1>*/}
-            {/*<h3>Add Todolist</h3>*/}
-            <div className={s.App_addItemForm}>
-                <AddItemForm addItem={addNewTodolist}/>
-            </div>
+
             <Container fixed>
                 <Routes>
-                    <Route path="/" element = {<Todolists/>} />
-                    <Route path="/login" element = {<Login/>} />
-                    <Route path="404" element = {<h1>404: PAGE NOT FOUND</h1>} />
-                    <Route path="*" element = {<Navigate to="/404"/>} />
+                    <Route path="/" element={<AppTodolist/>}/>
+                    <Route path="/login" element={<Login/>}/>
+                    <Route path="404" element={<h1>404: PAGE NOT FOUND</h1>}/>
+                    <Route path="*" element={<Navigate to="/404"/>}/>
                 </Routes>
             </Container>
         </div>
     );
 }
+
 
 export default App;

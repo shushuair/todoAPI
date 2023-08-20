@@ -2,7 +2,7 @@ import {ChangeRequestTaskModelType, TasksType, UpdateDomainTaskModelType} from "
 import {AddTodolistType, changeEntityStatusAC, RemoveTodolistType, SetTodolistType} from "./todolistReducer";
 import {AllThunkType, RootStateType} from "../store";
 import {todolistsAPI} from "../../api/todolists-api";
-import {setAppErrorAC, setAppStatusAC} from "./appReducer";
+import {setAppStatusAC} from "./appReducer";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 export const TasksReducer = (state: TasksStateReducerType = {}, action: TasksReducerActionType): TasksStateReducerType => {
@@ -157,12 +157,6 @@ export const changeTaskTC = (todolistId: string, taskId: string, domainModel: Up
                         dispatch(setAppStatusAC('idle'))
                     } else {
                         handleServerAppError(res.data, dispatch)
-                        // if (res.data.messages.length) {
-                        //     dispatch(setAppErrorAC(res.data.messages[0]))
-                        // } else {
-                        //     dispatch(setAppErrorAC("Some error occurred"))
-                        // }
-                        // dispatch(setAppStatusAC('failed'))
                     }
                 }
             )

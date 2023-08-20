@@ -1,9 +1,9 @@
-import React, {useCallback, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {Todolist} from "../Todolist/Todolist";
 import {useSelector} from "react-redux";
-import {RootStateType, useAppDispatch} from "../../Redux/store";
-import {FilterValuesType, InitialStateType, TodolistType} from "../../api/typeApi";
-import {getTodolistTC, newStatusFilterAC} from "../../Redux/Reducers/todolistReducer";
+import {RootStateType, useAppDispatch, useAppSelector} from "../../Redux/store";
+import {InitialStateType} from "../../api/typeApi";
+import {getTodolistTC} from "../../Redux/Reducers/todolistReducer";
 import Grid from "@mui/material/Grid";
 import s from "./Todolists.module.css"
 
@@ -11,10 +11,10 @@ import s from "./Todolists.module.css"
 export const Todolists = () => {
     const dispatch = useAppDispatch()
     const todolists = useSelector<RootStateType, InitialStateType[]>(state => state.Todolists)
+    const isLoggedIn = useAppSelector<boolean>(state=>state.Auth.isLoggedIn)
     useEffect(() => {
-        dispatch(getTodolistTC())
+            dispatch(getTodolistTC())
     }, [])
-
     return (
         <div>
             <Grid container className={s.app__wrapper}>

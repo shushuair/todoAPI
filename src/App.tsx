@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import './App.module.css';
-import {RootStateType, useAppDispatch} from "./Redux/store";
+import {useAppDispatch, useAppSelector} from "./Redux/store";
 import Container from "@mui/material/Container";
 import Toolbar from "@mui/material/Toolbar";
 import AppBar from "@mui/material/AppBar";
@@ -9,7 +9,6 @@ import Menu from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
 import {ErrorSnackbar} from "./components/ErrorSnackbar/ErrorSnackbar";
 import {RequestStatusType} from "./Redux/Reducers/appReducer";
-import {useSelector} from "react-redux";
 import LinearProgress from "@mui/material/LinearProgress";
 import {Navigate, NavLink, Route, Routes} from "react-router-dom";
 import {Login} from "./components/Login/Login";
@@ -19,14 +18,14 @@ import {isLoggedInTC, logoutTC} from "./Redux/Reducers/authReducer";
 import {CircularProgress} from "@mui/material";
 
 function App() {
-    const status = useSelector<RootStateType, RequestStatusType>((state) => state.App.status)
-    const isLoggedIn = useSelector<RootStateType, boolean>(state => state.Auth.isLoggedIn)
-    const isInitialized = useSelector<RootStateType, boolean>(state => state.Auth.isInitialized)
+    const status = useAppSelector<RequestStatusType>((state) => state.App.status)
+    const isLoggedIn = useAppSelector<boolean>(state => state.Auth.isLoggedIn)
+    const isInitialized = useAppSelector<boolean>(state => state.Auth.isInitialized)
+    const dispatch = useAppDispatch()
     useEffect(() => {
         dispatch(isLoggedInTC())
     }, [isLoggedIn])
 
-    const dispatch = useAppDispatch()
     const onLogoutHandler = () => {
         dispatch(logoutTC())
     }
@@ -61,8 +60,8 @@ function App() {
                 <Routes>
                     <Route path="/" element={<AppTodolist/>}/>
                     <Route path="/login" element={<Login/>}/>
-                    <Route path="404" element={<h1>404: PAGE NOT FOUND</h1>}/>
                     <Route path="*" element={<Navigate to="/404"/>}/>
+                    <Route path="404" element={<h1>404: PAGE NOT FOUND</h1>}/>
                 </Routes>
             </Container>
         </div>

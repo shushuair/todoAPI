@@ -2,6 +2,7 @@ import {FilterValuesType, InitialStateType, TodolistType} from "../../api/typeAp
 import {todolistsAPI} from "../../api/todolists-api";
 import {AllThunkType} from "../store";
 import {RequestStatusType, setAppErrorAC, setAppStatusAC} from "./appReducer";
+import {handleServerNetworkError} from "../../utils/error-utils";
 
 
 export const TodolistReducer = (state: InitialStateType[] = [], action: TodolistReducerActionType): InitialStateType[] => {
@@ -40,12 +41,12 @@ export type TodolistReducerActionType = SetTodolistType | AddTodolistType |
     RemoveTodolistType | ChangeTodoTitleType | NewStatusFilterACType | ChangeEntityStatusACType
 
 export type AddTodolistType = ReturnType<typeof addTodolistAC>
-export type SetTodolistType = ReturnType<typeof setTodolistAC>
+export type SetTodolistType = ReturnType<typeof getTodolistsAC>
 export type RemoveTodolistType = ReturnType<typeof removeTodolistAC>
 export type ChangeTodoTitleType = ReturnType<typeof changeTodoTitleAC>
 export type ChangeEntityStatusACType = ReturnType<typeof changeEntityStatusAC>
 
-export const setTodolistAC = (todo: TodolistType[]) => {
+export const getTodolistsAC = (todo: TodolistType[]) => {
     return {
         type: "SET-TODOLISTS",
         payload: {todo}
@@ -56,11 +57,13 @@ export const getTodolistTC = (): AllThunkType => {
         dispatch(setAppStatusAC('loading'))
         todolistsAPI.getTodolists()
             .then((res) => {
-                dispatch(setTodolistAC(res.data))
-                dispatch(setAppStatusAC('idle'))
+                dispatch(getTodolistsAC(res.data))
+                dispatch(setAppStatusAC('succeeded'))
+            })
+            .catch(error => {
+                handleServerNetworkError(error,dispatch)
             })
     }
-
 }
 
 export const addTodolistAC = (todolist: TodolistType) => {
@@ -77,7 +80,7 @@ export const addTodolistTC = (title: string): AllThunkType => (dispatch) => {
                 dispatch(addTodolistAC(res.data.data.item))
                 dispatch(setAppStatusAC('idle'))
             } else {
-               dispatch(setAppStatusAC('failed'))
+                dispatch(setAppStatusAC('failed'))
             }
         })
         .catch((error) => {
@@ -99,7 +102,7 @@ export const removeTodolistTC = (todolistId: string): AllThunkType => (dispatch)
             dispatch(removeTodolistAC(todolistId))
             dispatch(setAppStatusAC("idle"))
         })
-        .catch(e=>{
+        .catch(e => {
             dispatch(setAppErrorAC(e.message))
             dispatch(changeEntityStatusAC(todolistId, 'failed'))
             dispatch(setAppStatusAC('failed'))

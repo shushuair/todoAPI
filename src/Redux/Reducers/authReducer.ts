@@ -1,37 +1,9 @@
-// import {Dispatch} from "redux";
-// import {FormikErrorType} from "../../components/Login/Login";
-// import {setAppErrorAC, setAppStatusAC} from "./appReducer";
-//
-// const initialState = {
-//     isLoggedIn: false
-// }
-// type InitialStateType = {
-//     isLoggedIn: boolean
-// }
-// export const authReducer = (state:InitialStateType = initialState, action: ActionsType): InitialStateType  => {
-//     switch (action.type) {
-//         case "login/SET-IS-LOGGED-IN": {
-//             return {...state, isLoggedIn: action.value}
-//         }
-//         default: return state
-//     }
-// }
-//
-// export const setIsLoggedInAC = (value: boolean) => ({
-//     type: "login/SET-IS-LOGGED-IN",value} as const)
-// export const loginTC = (data: FormikErrorType) => {
-//     return (dispatch: Dispatch<ActionsType>) => {
-//         dispatch(setAppStatusAC("loading"))
-//     }
-// }
-// type ActionsType = ReturnType<typeof setIsLoggedInAC> | ReturnType<typeof setAppStatusAC>
-//     | ReturnType<typeof setAppErrorAC>
-
-import {Dispatch} from 'redux'
-import {setAppErrorAC, setAppStatusAC} from "./appReducer";
-import {FormikErrorType} from "./../../components/Login/Login";
-import {authAPI} from  "./../../api/todolists-api"
-import {handleServerAppError, handleServerNetworkError} from "./../../utils/error-utils";
+import {setAppStatusAC} from "./appReducer";
+import {FormikErrorType} from "../../components/Login/Login";
+import {authAPI} from "../../api/todolists-api"
+import {AxiosErrorType, handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
+import {AllThunkType} from "../store";
+import axios from "axios";
 
 
 const initialState = {
@@ -39,71 +11,87 @@ const initialState = {
     isInitialized: false
 }
 
-type InitialStateType = {
-    isLoggedIn: boolean
-    isInitialized: boolean
-}
-
-export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export type InitialStateType = typeof initialState
+export const authReducer = (state: InitialStateType = initialState, action: AuthReducerType): InitialStateType => {
     switch (action.type) {
         case 'login/SET-IS-LOGGED-IN':
             return {...state, isLoggedIn: action.value}
-        case 'login/SET-IS-INITIALIZED':
-            return {...state, isInitialized: action.payload.value}
+        case 'IS-INITIALIZED':
+            return {...state, isInitialized: action.payload.newValue}
         default:
             return state
     }
 }
 // actions
+export type SetIsLoggedInACType=ReturnType<typeof setIsLoggedInAC>
 export const setIsLoggedInAC = (value: boolean) =>
     ({type: 'login/SET-IS-LOGGED-IN', value} as const)
-export const setIsInitializedAC = (value: boolean) =>
-    ({type: 'login/SET-IS-INITIALIZED', payload: {value}} as const)
+export type IsInitializedACType=ReturnType<typeof isInitializedAC>
+export const isInitializedAC=(newValue:boolean)=>{
+    return {
+        type:"IS-INITIALIZED",
+        payload:{newValue}
+    }as const
+}
+
 // thunks
-export const loginTC = (data: FormikErrorType) => (dispatch: Dispatch<ActionsType>) => {
-    dispatch(setAppStatusAC('loading'))
-    authAPI.login(data)
-        .then((res) => {
-            if (res.data.resultCode === 0) {
-                dispatch(setIsLoggedInAC(true))
-                dispatch(setAppStatusAC('idle'))
-            } else {
-                handleServerAppError(res.data, dispatch)
-            }
-        })
-        .catch((e) => handleServerNetworkError(e, dispatch))
-}
-export const logoutTC = () => (dispatch: Dispatch<ActionsType>) => {
-    dispatch(setAppStatusAC('loading'))
-    authAPI.logout()
-        .then((res) => {
-            if (res.data.resultCode === 0) {
-                dispatch(setIsLoggedInAC(false))
-                dispatch(setAppStatusAC('idle'))
-            } else {
-                handleServerAppError(res.data, dispatch)
-            }
-        })
-        .catch((e) => handleServerNetworkError(e, dispatch))
-}
-export const isLoggedInTC = () => async (dispatch: Dispatch<ActionsType>) => {
+export const loginTC = (data: FormikErrorType): AllThunkType => async (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     try {
-        const res = await authAPI.me()
-        if (res.data.resultCode === 0) {
-            dispatch(setIsLoggedInAC(true))
-            dispatch(setAppStatusAC('succeeded'))
-        } else {
-            handleServerAppError(res.data, dispatch)
-            dispatch(setIsLoggedInAC(false))
-        }
+        await authAPI.login(data)
+            .then(res => {
+                if (res.data.resultCode === 0) {
+                    dispatch(setIsLoggedInAC(true))
+                    dispatch(setAppStatusAC('succeeded'))
+                } else {
+                    handleServerAppError(res.data, dispatch)
+                }
+            })
     } catch (e) {
-        handleServerNetworkError(e as { message: string }, dispatch)
-    } finally {
-        dispatch(setIsInitializedAC(true))
+        if (axios.isAxiosError<AxiosErrorType>(e)) {
+            handleServerNetworkError(e, dispatch)
+        }
     }
 }
 
+export const logoutTC = (): AllThunkType => async (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
+    try {
+        await authAPI.logout()
+            .then(res => {
+                if (res.data.resultCode === 0) {
+                    dispatch(setIsLoggedInAC(false))
+                    dispatch(setAppStatusAC('succeeded'))
+                } else {
+                    handleServerAppError(res.data, dispatch)
+                }
+            })
+    } catch (e) {
+        if (axios.isAxiosError<AxiosErrorType>(e)) {
+            handleServerNetworkError(e, dispatch)
+        }
+    }
+}
 
-type ActionsType = ReturnType<typeof setIsLoggedInAC> | ReturnType<typeof setAppStatusAC>
-    | ReturnType<typeof setAppErrorAC> | ReturnType<typeof setIsInitializedAC>
+export const isLoggedInTC = (): AllThunkType => async (dispatch) => {
+    dispatch(setAppStatusAC('loading'))
+    try {
+        await authAPI.me()
+            .then(res => {
+                dispatch(isInitializedAC(true))
+                if (res.data.resultCode === 0) {
+                    dispatch(setIsLoggedInAC(true))
+                    dispatch(setAppStatusAC('succeeded'))
+                } else {
+                    dispatch(setIsLoggedInAC(false))
+                    dispatch(setAppStatusAC('succeeded'))
+                }
+            })
+    } catch (e) {
+        if (axios.isAxiosError<AxiosErrorType>(e)) {
+            handleServerNetworkError(e, dispatch)
+        }
+    }
+}
+
+export type AuthReducerType = SetIsLoggedInACType | IsInitializedACType

@@ -15,7 +15,7 @@ export type InitialStateType = typeof initialState
 export const authReducer = (state: InitialStateType = initialState, action: AuthReducerType): InitialStateType => {
     switch (action.type) {
         case 'login/SET-IS-LOGGED-IN':
-            return {...state, isLoggedIn: action.value}
+            return {...state, isLoggedIn: action.payload.value}
         case 'IS-INITIALIZED':
             return {...state, isInitialized: action.payload.newValue}
         default:
@@ -24,10 +24,15 @@ export const authReducer = (state: InitialStateType = initialState, action: Auth
 }
 // actions
 export type SetIsLoggedInACType=ReturnType<typeof setIsLoggedInAC>
-export const setIsLoggedInAC = (value: boolean) =>
-    ({type: 'login/SET-IS-LOGGED-IN', value} as const)
-export type IsInitializedACType=ReturnType<typeof isInitializedAC>
-export const isInitializedAC=(newValue:boolean)=>{
+export const setIsLoggedInAC=(value: boolean)=>{
+    return {
+        type:"login/SET-IS-LOGGED-IN",
+        payload:{value}
+    }as const
+}
+
+export type SetIsInitializedACType=ReturnType<typeof setIsInitializedAC>
+export const setIsInitializedAC=(newValue:boolean)=>{
     return {
         type:"IS-INITIALIZED",
         payload:{newValue}
@@ -73,12 +78,12 @@ export const logoutTC = (): AllThunkType => async (dispatch) => {
     }
 }
 
-export const isLoggedInTC = (): AllThunkType => async (dispatch) => {
+export const initializeAppTC = (): AllThunkType => async (dispatch) => {
     dispatch(setAppStatusAC('loading'))
     try {
         await authAPI.me()
             .then(res => {
-                dispatch(isInitializedAC(true))
+                dispatch(setIsInitializedAC(true))
                 if (res.data.resultCode === 0) {
                     dispatch(setIsLoggedInAC(true))
                     dispatch(setAppStatusAC('succeeded'))
@@ -94,4 +99,4 @@ export const isLoggedInTC = (): AllThunkType => async (dispatch) => {
     }
 }
 
-export type AuthReducerType = SetIsLoggedInACType | IsInitializedACType
+export type AuthReducerType = SetIsLoggedInACType | SetIsInitializedACType

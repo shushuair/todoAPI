@@ -13,7 +13,9 @@ export const Todolists = () => {
     const todolists = useSelector<RootStateType, InitialStateType[]>(state => state.Todolists)
     const isLoggedIn = useAppSelector<boolean>(state=>state.Auth.isLoggedIn)
     useEffect(() => {
+        if(isLoggedIn) {
             dispatch(getTodolistTC())
+        }
     }, [])
     return (
         <div>

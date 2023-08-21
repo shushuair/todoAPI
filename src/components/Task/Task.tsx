@@ -40,7 +40,7 @@ export const Task = (props: TaskPropsType) => {
         <div className={s.TaskWrapper}>
             <Checkbox checked={checkedStatus} onChange={onStatusChangeHandler}/>
 
-            <EditableSpan value={taskTitle} onChange={onTaskTitleChangeHandler} disabled={props.entityStatus === "loading"}/>
+            <EditableSpan value={taskTitle} onChange={onTaskTitleChangeHandler} disabled={props.entityStatus === 'loading'}/>
             <IconButton aria-label="delete" size="large">
                 <DeleteIcon onClick={deleteTaskHandler}/>
             </IconButton>

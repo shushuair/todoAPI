@@ -33,7 +33,6 @@ export const authAPI = {
     }
 }
 
-
 export const todolistsAPI = {
     getTodolists(){
         return instance.get<TodolistType[]>("todo-lists")

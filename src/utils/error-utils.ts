@@ -21,6 +21,4 @@ export const handleServerNetworkError = (error: { message: string }, dispatch: E
     //зафейлился запрос убираем дозагрузку
     dispatch(setAppStatusAC('failed'))
     dispatch(setAppErrorAC(error.message))
-
-
 }

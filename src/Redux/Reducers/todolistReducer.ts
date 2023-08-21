@@ -104,7 +104,7 @@ export const removeTodolistTC = (todolistId: string): AllThunkType => (dispatch)
         })
         .catch(e => {
             dispatch(setAppErrorAC(e.message))
-            dispatch(changeEntityStatusAC(todolistId, 'failed'))
+            // dispatch(changeEntityStatusAC(todolistId, 'failed'))
             dispatch(setAppStatusAC('failed'))
         })
 }

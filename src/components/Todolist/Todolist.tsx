@@ -50,7 +50,7 @@ export const Todolist = (props: TodoPropsType) => {
                 </IconButton>
             </div>
             <div>
-                <AddItemForm addItem={onChangeHandler} disabled={props.entityStatus === "loading"}/>
+                <AddItemForm addItem={onChangeHandler}/>
             </div>
             <Tasks todolistId={todolistId} filterStatus={filterStatus} entityStatus={props.entityStatus}/>
             <ButtonGroup variant="contained" aria-label="outlined primary button group">

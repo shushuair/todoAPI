@@ -1,8 +1,8 @@
-import {FilterValuesType, InitialStateType, TodolistType} from "../../api/typeApi";
-import {todolistsAPI} from "../../api/todolists-api";
+import {FilterValuesType, InitialStateType, TodolistType} from "api/typeApi";
+import {todolistsAPI} from "api/todolists-api";
 import {AllThunkType} from "../store";
 import {RequestStatusType, setAppErrorAC, setAppStatusAC} from "./appReducer";
-import {handleServerNetworkError} from "../../utils/error-utils";
+import {handleServerNetworkError} from "utils/error-utils";
 
 
 export const TodolistReducer = (state: InitialStateType[] = [], action: TodolistReducerActionType): InitialStateType[] => {

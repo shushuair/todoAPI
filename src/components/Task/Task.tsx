@@ -1,12 +1,12 @@
 import React, {ChangeEvent} from 'react';
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete"
-import {useAppDispatch} from "../../Redux/store";
+import {useAppDispatch} from "Redux/store";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
-import {changeTaskTC, deleteTaskTC} from "../../Redux/Reducers/tasksReducer";
-import {TaskStatuses} from "../../api/typeApi";
+import {changeTaskTC, deleteTaskTC} from "Redux/Reducers/tasksReducer";
+import {TaskStatuses} from "api/typeApi";
 import Checkbox from "@mui/material/Checkbox";
-import {RequestStatusType} from "../../Redux/Reducers/appReducer";
+import {RequestStatusType} from "Redux/Reducers/appReducer";
 import s from "./Task.module.css"
 
 

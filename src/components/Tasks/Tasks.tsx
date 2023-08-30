@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
 import {useSelector} from "react-redux";
-import {RootStateType, useAppDispatch} from "../../Redux/store";
+import {RootStateType, useAppDispatch} from "Redux/store";
 import {Task} from "../Task/Task";
-import {FilterValuesType, TasksType} from "../../api/typeApi";
-import {getTasksTC} from "../../Redux/Reducers/tasksReducer";
-import {RequestStatusType} from "../../Redux/Reducers/appReducer";
+import {FilterValuesType, TasksType} from "api/typeApi";
+import {getTasksTC} from "Redux/Reducers/tasksReducer";
+import {RequestStatusType} from "Redux/Reducers/appReducer";
 import s from "./Tasks.module.css"
 
 export type TasksPropsType = {

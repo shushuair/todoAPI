@@ -2,8 +2,8 @@ import React from 'react';
 import s from "../../App.module.css";
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {Todolists} from "../Todolists/Todolists";
-import {addTodolistTC} from "../../Redux/Reducers/todolistReducer";
-import {useAppDispatch, useAppSelector} from "../../Redux/store";
+import {addTodolistTC} from "Redux/Reducers/todolistReducer";
+import {useAppDispatch, useAppSelector} from "Redux/store";
 import {Navigate} from "react-router-dom";
 
 export const AppTodolist = () => {

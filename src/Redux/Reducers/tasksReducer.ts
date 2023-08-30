@@ -1,9 +1,9 @@
-import {ChangeRequestTaskModelType, TasksType, UpdateDomainTaskModelType} from "../../api/typeApi";
+import {ChangeRequestTaskModelType, TasksType, UpdateDomainTaskModelType} from "api/typeApi";
 import {AddTodolistType, changeEntityStatusAC, RemoveTodolistType, SetTodolistType} from "./todolistReducer";
 import {AllThunkType, RootStateType} from "../store";
-import {todolistsAPI} from "../../api/todolists-api";
+import {todolistsAPI} from "api/todolists-api";
 import {setAppStatusAC} from "./appReducer";
-import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
+import {handleServerAppError, handleServerNetworkError} from "utils/error-utils";
 
 export const TasksReducer = (state: TasksStateReducerType = {}, action: TasksReducerActionType): TasksStateReducerType => {
     switch (action.type) {

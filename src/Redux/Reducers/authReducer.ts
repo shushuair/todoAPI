@@ -1,7 +1,7 @@
 import {setAppStatusAC} from "./appReducer";
-import {FormikErrorType} from "../../components/Login/Login";
-import {authAPI} from "../../api/todolists-api"
-import {AxiosErrorType, handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
+import {FormikErrorType} from "components/Login/Login";
+import {authAPI} from "api/todolists-api"
+import {AxiosErrorType, handleServerAppError, handleServerNetworkError} from "utils/error-utils";
 import {AllThunkType} from "../store";
 import axios from "axios";
 

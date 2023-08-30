@@ -1,17 +1,17 @@
 import React from 'react';
 import {AddItemForm} from "../AddItemForm/AddItemForm";
 import {Tasks} from "../Tasks/Tasks";
-import {FilterValuesType} from "../../api/typeApi";
-import {useAppDispatch} from "../../Redux/store";
+import {FilterValuesType} from "api/typeApi";
+import {useAppDispatch} from "Redux/store";
 import {EditableSpan} from "../EditableSpan/EditableSpan";
 
-import {changeTodoTitleTC, newStatusFilterAC, removeTodolistTC} from "../../Redux/Reducers/todolistReducer";
+import {changeTodoTitleTC, newStatusFilterAC, removeTodolistTC} from "Redux/Reducers/todolistReducer";
 import Button from "@mui/material/Button";
-import {addTaskTC} from "../../Redux/Reducers/tasksReducer";
+import {addTaskTC} from "Redux/Reducers/tasksReducer";
 import Delete from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import ButtonGroup from "@mui/material/ButtonGroup";
-import {RequestStatusType} from "../../Redux/Reducers/appReducer";
+import {RequestStatusType} from "Redux/Reducers/appReducer";
 import s from "./Todolist.module.css"
 
 

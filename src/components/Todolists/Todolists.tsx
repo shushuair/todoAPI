@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import {Todolist} from "../Todolist/Todolist";
 import {useSelector} from "react-redux";
-import {RootStateType, useAppDispatch, useAppSelector} from "../../Redux/store";
-import {InitialStateType} from "../../api/typeApi";
-import {getTodolistTC} from "../../Redux/Reducers/todolistReducer";
+import {RootStateType, useAppDispatch, useAppSelector} from "Redux/store";
+import {InitialStateType} from "api/typeApi";
+import {getTodolistTC} from "Redux/Reducers/todolistReducer";
 import Grid from "@mui/material/Grid";
 import s from "./Todolists.module.css"
 

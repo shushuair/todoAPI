@@ -1,4 +1,4 @@
-import {RequestStatusType} from "../Redux/Reducers/appReducer";
+import {RequestStatusType} from "Redux/Reducers/appReducer";
 
 export type TodoResponseType<D = {}> = {
     data: D
@@ -81,8 +81,6 @@ export type UpdateDomainTaskModelType = {
     startDate?: string
     deadline?: string
 }
-
-
 
 export type ChangeRequestTaskModelType = {
     title: string
